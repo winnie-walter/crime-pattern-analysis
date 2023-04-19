@@ -41,12 +41,14 @@ data['STATE_UT'] = data['STATE_UT'].str.upper()
 
 data = data.sort_values('STATE_UT')
 data.insert(loc=data.columns.get_loc('STATE_UT')+1,column='DISTRICT', value='TOTAL')
+data.insert(loc=data.columns.get_loc('STATE_UT')+2,column='YEAR', value='2015')
 data = data.reset_index(drop=True).dropna()
 data.columns = data.columns.str.replace(' ','_')
 print(data)
-data.to_csv('fulldata2016.csv',index=False)
+data.to_csv('fullsjsondata2015.csv',index=False)
 data = data.to_dict(orient='records')
 
 #print(data)
-with open('static\\assets\\data\\fulldata2016.json', 'w') as f:
+with open('static\\assets\\data\\fullsjsondata2015.json', 'w') as f:
     json.dump(data,f)
+    
