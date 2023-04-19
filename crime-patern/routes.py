@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 DB_HOST = "localhost"
 DB_NAME = "crime"
 DB_USER = "postgres"
-DB_PASS = "raphael"
+DB_PASS = "winnie"
  
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
