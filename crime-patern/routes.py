@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, request, abort,render_template, url_for,json
+from flask import jsonify, request, abort,render_template, url_for,json,jsonify
 import flask
 import os
 import re
@@ -20,7 +20,11 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 @app.route('/crime-charts.html')
 def crime_charts():
     if 'loggedin' in session:
-     return render_template('crime-charts.html')
+     data = pd.read_csv('fulljsondata2016.csv')
+     data = data['STATE_UT'][1:-2]
+     #my_array = jsonify(data)
+     
+     return render_template('crime-charts.html',data=data)
     return redirect(url_for('login'))
 
 

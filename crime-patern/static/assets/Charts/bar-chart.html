@@ -24,8 +24,8 @@
 
 
   <script>
-    s = "/static/assets/data/fulljsondata2012.json";
-
+    s = "/static/assets/data/fullcombine.json";
+    d = "/static/assets/data/fulldata2016.json";
     function readTextFile(file, callback) {
       var rawFile = new XMLHttpRequest();
       rawFile.overrideMimeType("application/json");
@@ -39,6 +39,13 @@
     }
 
     readTextFile(s, function (text) {
+      
+      data2=[]
+      fetch(d)
+  .then(response => response.json())
+  .then(data2 => {
+   
+    data2=data2
       var data = JSON.parse(text);
       var retrievedObject = localStorage.getItem('testObject');
 
@@ -109,6 +116,7 @@
       });
 
     });
+  });
   </script>
 </body>
 

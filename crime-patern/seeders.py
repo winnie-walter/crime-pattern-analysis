@@ -12,8 +12,10 @@ for region in regions:
         db.session.add(loc)
         
         db.session.commit()
-        
-user = User(fullname='rex',email='rsiphael@gmail.com',phoneNumber='0655594998',password=generate_password_hash('12345'),is_admin=True,location_id=64)
+with app.app_context():       
+ result = Location.query.filter_by(name='Dar es Salaam').first() 
+      
+user = User(fullname='rex',email='rsiphael@gmail.com',phoneNumber='0655594998',password=generate_password_hash('12345'),is_admin=True,location_id=result.id)
   
 with app.app_context():
 
