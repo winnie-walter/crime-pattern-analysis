@@ -5,6 +5,7 @@ import psycopg2 #pip install psycopg2
 import psycopg2.extras
 import re 
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from models import *
 
 # app = Flask(__name__)
@@ -17,6 +18,13 @@ from models import *
 # DB_NAME = "crime"
 # DB_USER = "postgres"
 # DB_PASS = "raphael"
+
+
+# DB_HOST = "localhost"
+# DB_NAME = "crime"
+# DB_USER = "postgres"
+# DB_PASS = "winnie"
+
  
 # conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
 
