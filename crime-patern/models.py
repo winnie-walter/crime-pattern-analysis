@@ -1,15 +1,18 @@
+
 from flask import Flask
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import backref
-from app import app
 from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/crime'
-db = SQLAlchemy(app)
+# app = Flask(__name__)
+# app.secret_key = 'cairocoders-ednalan'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/crime'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy()
 
-migrate = Migrate(app, db)
+#migrate = Migrate(app, db)
 
 date = datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
 
@@ -27,9 +30,9 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement= True)
     fullname = db.Column(db.String(255), nullable = False)
-    email = db.Column(db.String(255), nullable = False, unique=True)
+    username = db.Column(db.String(255), nullable = False, unique=True)
     phoneNumber = db.Column(db.String(20),nullable =False )
-    password = db.Column(db.String(30), nullable = False)
+    password = db.Column(db.String(255), nullable = False)
     is_admin = db.Column(db.Boolean, default=False)
     is_staff = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
@@ -38,8 +41,12 @@ class User(db.Model):
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
     
-    
-        
+    def set_password(self,password):
+         self.password = generate_password_hash(password)
+         return self.password
+    def check_password(self,password):
+         return check_password_hash(self.password,password)
+       
     def __repr__(self):
         return f"<{self.id}>"
 
@@ -88,8 +95,8 @@ class Crime(db.Model):
     date_updated = db.Column(db.DateTime(), default=date)
     status = db.Column(db.Boolean, default=True)
     
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#  db.create_all()
 
 # if __name__ == '__main__':
 #     app.run()
