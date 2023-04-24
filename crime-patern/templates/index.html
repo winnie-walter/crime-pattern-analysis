@@ -62,11 +62,16 @@
       var s = "{{url_for('static',filename='assets/data/fulldata2001.json')}}";
 
 
-
-
-      if (document.getElementById('2001-check').checked == true) {
+      {% for i in data %}
+      if (document.getElementById('{{i.year}}-check').checked == true) {
+        document.getElementById('dropdownMenuButton').innerHTML = '{{i.year}}';
+        s = "static/assets/files/{{i.year}}.json";
+      
+      } 
+      {% endfor %}
+      else if (document.getElementById('2001-check').checked == true) {
         document.getElementById('dropdownMenuButton').innerHTML = '2001';
-        s = "{{url_for('static',filename='assets/data/fulldata2016.json')}}";
+        s = "{{url_for('static',filename='assets/data/fulldata2001.json')}}";
       } else if (document.getElementById('2002-check').checked == true) {
         document.getElementById('dropdownMenuButton').innerHTML = '2002';
         s = "{{url_for('static',filename='assets/data/fulldata2002.json')}}";
@@ -138,11 +143,17 @@
         if (document.getElementById('murder-check').checked == true) {
           tableBody += '<th class="border-0" scope="col" id="total-table-heading">MURDER</th>';
         }
-        if (document.getElementById('kidnapping-check').checked == true) {
-          tableBody += '<th class="border-0" scope="col" id="total-table-heading">KIDNAPPING</th>';
+        if (document.getElementById('rape-check').checked == true) {
+          tableBody += '<th class="border-0" scope="col" id="total-table-heading">RAPE</th>';
         }
-        if (document.getElementById('robbery-check').checked == true) {
-          tableBody += '<th class="border-0" scope="col" id="total-table-heading">ROBBERY</th>';
+        if (document.getElementById('child_desertion-check').checked == true) {
+          tableBody += '<th class="border-0" scope="col" id="total-table-heading">CHILD_DESERTION</th>';
+        }
+        if (document.getElementById('unnatural_offence-check').checked == true) {
+          tableBody += '<th class="border-0" scope="col" id="total-table-heading">UNNATURAL_OFFENCE</th>';
+        }
+        if (document.getElementById('defilement-check').checked == true) {
+          tableBody += '<th class="border-0" scope="col" id="total-table-heading">DEFILEMENT</th>';
         }
 
         tableBody += '</tr>';
@@ -156,11 +167,17 @@
           if (document.getElementById('murder-check').checked == true) {
             tableBody += '</th><td>' + d.MURDER;
           }
-          if (document.getElementById('kidnapping-check').checked == true) {
-            tableBody += '</th><td>' + d.KIDNAPPING_AND_ABDUCTION;
+          if (document.getElementById('rape-check').checked == true) {
+            tableBody += '</th><td>' + d.RAPE;
           }
-          if (document.getElementById('robbery-check').checked == true) {
-            tableBody += '</th><td>' + d.ROBBERY;
+          if (document.getElementById('child_desertion-check').checked == true) {
+            tableBody += '</th><td>' + d.CHILD_DESERTION;
+          }
+          if (document.getElementById('unnatural_offence-check').checked == true) {
+            tableBody += '</th><td>' + d.UNNATURAL_OFFENCE;
+          }
+          if (document.getElementById('defilement-check').checked == true) {
+            tableBody += '</th><td>' + d.DEFILEMENT;
           }
 
           tableBody += '</td></tr>';
@@ -214,20 +231,13 @@
 
 <body onload="startTime();datafillfun(1);">
 
-<!-- 
-  <h1>My Website</h1>
-  <form action="/my-link/">
-      <input type="submit" value="Click me" />
-  </form>
-  
-  <button> <a href="/my-link/">Click me</a></button>
- -->
-<!-- 
- <p>{{ output }}</p>
 
- -->
 
+  {% if uss %}
   <my-header></my-header>
+{% else %}
+<my-header2></my-header2>
+{% endif %}
 
   <script type="text/javascript">
     $('.datepicker')[0] && $('.datepicker').each(function () {
@@ -288,24 +298,15 @@
                 <a href="#">Total</a>
               </label>
             </div>
+            {% for i in type %}
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Murder" id="murder-check">
-              <label class="form-check-label" for="murder-check">
-                <a href="#">Murder</a>
+              <input class="form-check-input" type="checkbox" value="{{i.name | title}}" id="{{i.name | lower}}-check">
+              <label class="form-check-label" for="{{i.name | lower}}-check">
+                <a href="#">{{i.name | title}}</a>
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Kidnapping" id="kidnapping-check">
-              <label class="form-check-label" for="kidnapping-check">
-                <a href="#">Kidnapping</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="Robbery" id="robbery-check">
-              <label class="form-check-label" for="robbery-check">
-                <a href="#">Robbery</a>
-              </label>
-            </div>
+            {% endfor %}
+            
           </div>
         </div>
       </div>
@@ -319,79 +320,58 @@
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown1-content">
+            {% for i in data %}
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2001" id="2001-check" checked>
-              <label class="form-check-label" for="2001-check">
-                <a href="#" onclick="datafillfun(1)">2001</a>
+              <input class="form-check-input" type="checkbox" value="{{i.year}}" id="{{i.year}}-check" checked>
+              <label class="form-check-label" for="{{i.year}}-check">
+                
+                <a href="#" onclick="datafillfun({{i.id}})">{{i.year}}</a>
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2002" id="2002-check">
-              <label class="form-check-label" for="2002-check">
-                <a href="#" onclick="datafillfun(2)">2002</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2003" id="2003-check">
-              <label class="form-check-label" for="2003-check">
-                <a href="#" onclick="datafillfun(3)">2003</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2004" id="2004-check">
-              <label class="form-check-label" for="2004-check">
-                <a href="#" onclick="datafillfun(4)">2004</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2005" id="2005-check">
-              <label class="form-check-label" for="2005-check">
-                <a href="#" onclick="datafillfun(5)">2005</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2006" id="2006-check">
-              <label class="form-check-label" for="2006-check">
-                <a href="#" onclick="datafillfun(6)">2006</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2007" id="2007-check">
-              <label class="form-check-label" for="2007-check">
-                <a href="#" onclick="datafillfun(7)">2007</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2008" id="2008-check">
-              <label class="form-check-label" for="2008-check">
-                <a href="#" onclick="datafillfun(8)">2008</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2009" id="2009-check">
-              <label class="form-check-label" for="2009-check">
-                <a href="#" onclick="datafillfun(9)">2009</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2010" id="2010-check">
-              <label class="form-check-label" for="2010-check">
-                <a href="#" onclick="datafillfun(10)">2010</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2011" id="2011-check">
-              <label class="form-check-label" for="2011-check">
-                <a href="#" onclick="datafillfun(11)">2011</a>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2012" id="2012-check">
-              <label class="form-check-label" for="2012-check">
-                <a href="#" onclick="datafillfun(12)">2012</a>
-              </label>
-            </div>
+            <script>
+        showMapData("Total");
 
+        function showMapData(stateName) {
+          
+          t = 'assets/files/2016.json'
+          
+          if (document.getElementById('{{i.year}}-check').checked == true) {
+            document.getElementById('dropdownMenuButton').innerHTML = '{{i.year}}';
+            s = "static/assets/files/{{i.year}}.json";
+            console.log(s);
+          
+          } 
+          
+          fetch(s)
+            .then((e) => {
+              return e.json();
+            })
+            .then((data) => {
+              var i;
+              for (i = 0; i < data.length; i++) {
+                if (data[i].STATE_UT.toLowerCase() == stateName.toLowerCase()) {
+                  document.querySelector(".state-name").innerHTML = stateName;
+                  document.querySelector(".caseFigMurder").innerHTML =
+                    data[i].MURDER;
+                  document.querySelector(".caseFigRape").innerHTML =
+                    data[i].RAPE;
+                  document.querySelector(".caseFigdesertion").innerHTML =
+                    data[i].CHILD_DESERTION;
+                  document.querySelector(".caseFigoffense").innerHTML =
+                    data[i].UNNATURAL_OFFENCE;
+                    
+                    document.querySelector(".caseFigdefilement").innerHTML =
+                    data[i].DEFILEMENT;
+                  
+                    
+                  document.querySelector(".caseFigTotal").innerHTML =
+                    data[i].TOTAL_IPC_CRIMES;
+                }
+              }
+            });
+        }
+      </script>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -446,18 +426,12 @@
             <div class="caseoffense">Unnatural Offence</div>
             <div class="caseFigoffense">...</div>
           </div>
-          <div class="child">
-            <div class="casechild">Child Stealing</div>
-            <div class="caseFigchild">...</div>
-          </div>
+          
           <div class="defilement">
             <div class="casedefilement">Defilement</div>
             <div class="caseFigdefilement">...</div>
           </div>
-          <div class="defilement">
-            <div class="casehuman">Human Tracking</div>
-            <div class="caseFighuman">...</div>
-          </div>
+         
           
           <div class="total">
             <div class="caseTotal">Total</div>
@@ -610,83 +584,7 @@
           </svg>
         </div>
       </div>
-      <script>
-        showMapData("Total");
-
-        function showMapData(stateName) {
-
-          if (document.getElementById('2001-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2001';
-            s = "{{url_for('static',filename='assets/data/fulldata2016.json')}}";
-          } else if (document.getElementById('2002-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2002';
-            s = "{{url_for('static',filename='assets/data/fulldata2002.json')}}";
-          } else if (document.getElementById('2003-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2003';
-            s = "{{url_for('static',filename='assets/data/fulldata2003.json')}}";
-          } else if (document.getElementById('2004-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2004';
-            s = "{{url_for('static',filename='assets/data/fulldata2004.json')}}";
-          } else if (document.getElementById('2005-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2005';
-            s = "{{url_for('static',filename='assets/data/fulldata2005.json')}}";
-          } else if (document.getElementById('2006-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2006';
-            s = "{{url_for('static',filename='assets/data/fulldata2006.json')}}";
-          } else if (document.getElementById('2007-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2007';
-            s = "{{url_for('static',filename='assets/data/fulldata2007.json')}}";
-          } else if (document.getElementById('2008-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2008';
-            s = "{{url_for('static',filename='assets/data/fulldata2008.json')}}";
-          } else if (document.getElementById('2009-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2009';
-            s = "{{url_for('static',filename='assets/data/fulldata2009.json')}}";
-          } else if (document.getElementById('2010-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2010';
-            s = "{{url_for('static',filename='assets/data/fulldata2010.json')}}";
-          } else if (document.getElementById('2011-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2011';
-            s = "{{url_for('static',filename='assets/data/fulldata2011.json')}}";
-          } else if (document.getElementById('2012-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '2012';
-            s = "{{url_for('static',filename='assets/data/fulldata2012.json')}}";
-          } else {
-            s = "{{url_for('static',filename='assets/data/fulldata2011.json')}}";
-          }
-
-
-          fetch(s)
-            .then((e) => {
-              return e.json();
-            })
-            .then((data) => {
-              var i;
-              for (i = 0; i < data.length; i++) {
-                if (data[i].STATE_UT.toLowerCase() == stateName.toLowerCase()) {
-                  document.querySelector(".state-name").innerHTML = stateName;
-                  document.querySelector(".caseFigMurder").innerHTML =
-                    data[i].MURDER;
-                  document.querySelector(".caseFigRape").innerHTML =
-                    data[i].RAPE;
-                  document.querySelector(".caseFigdesertion").innerHTML =
-                    data[i].CHILD_DESERTION;
-                  document.querySelector(".caseFigoffense").innerHTML =
-                    data[i].UNNATURAL_OFFENCE;
-                    document.querySelector(".caseFigchild").innerHTML =
-                    data[i].CHILD_STEALING;
-                    document.querySelector(".caseFigdefilement").innerHTML =
-                    data[i].DEFILEMENT;
-                    document.querySelector(".caseFighuman").innerHTML =
-                    data[i].HUMAN_TRAFFICKING;
-                    
-                  document.querySelector(".caseFigTotal").innerHTML =
-                    data[i].TOTAL_IPC_CRIMES;
-                }
-              }
-            });
-        }
-      </script>
+      
 
 
 

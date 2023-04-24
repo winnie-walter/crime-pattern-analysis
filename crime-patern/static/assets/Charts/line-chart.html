@@ -28,9 +28,9 @@
 <body>
   <div id='myChart'><a class="zc-ref" href="https://www.zingchart.com/">Powered by ZingChart</a></div>
   <script>
-    s = "/static/assets/data/fullcombine.json";
+    s = "/static/assets/files/2016.json";
 
-    d = "/static/assets/data/fulldata2016.json";
+    d = "/static/assets/files/2016.json";
    
     
     // function for reading json file
@@ -61,10 +61,10 @@
   
 
       var data = JSON.parse(text);
-      var year_arr = [2015,2016]
-      var regions = [ "DAR-ES-SALAAM", "ARUSHA",  "DODOMA"]
+      var year_arr = [2016]
+      var regions = []
       regions=[]
-      for (i =1; i < data2.length; i++){
+      for (i =0; i < data2.length; i++){
         regions.push(data2[i].STATE_UT)
       }
       
@@ -795,260 +795,7 @@
             "background-color": "#da534d",
           }
         },
-        {
-          "values": series_new[25].values,
-          "text": regions[25],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[26].values,
-          "text": regions[26],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[27].values,
-          "text": regions[27],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[28].values,
-          "text": regions[28],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[29].values,
-          "text": regions[29],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[30].values,
-          "text": regions[30],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[31].values,
-          "text": regions[31],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[32].values,
-          "text": regions[32],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[33].values,
-          "text": regions[33],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[34].values,
-          "text": regions[34],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        {
-          "values": series_new[35].values,
-          "text": regions[35],
-          "line-color": "#da534d",
-          "legend-item": {
-            "background-color": "#da534d",
-            "borderRadius": 5,
-            "font-color": "white"
-          },
-          "legend-marker": {
-            "visible": false
-          },
-          "marker": {
-            "background-color": "#da534d",
-            "border-width": 1,
-            "shadow": 0,
-            "border-color": "#faa39f"
-          },
-          "highlight-marker": {
-            "size": 6,
-            "background-color": "#da534d",
-          }
-        },
-        
+ 
         ]
       };
       

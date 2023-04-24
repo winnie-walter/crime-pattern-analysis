@@ -24,8 +24,8 @@
 
 
   <script>
-    s = "/static/assets/data/fullcombine.json";
-    d = "/static/assets/data/fulldata2016.json";
+    s = "/static/assets/files/2016.json";
+
     function readTextFile(file, callback) {
       var rawFile = new XMLHttpRequest();
       rawFile.overrideMimeType("application/json");
@@ -39,23 +39,20 @@
     }
 
     readTextFile(s, function (text) {
-      
-      data2=[]
-      fetch(d)
-  .then(response => response.json())
-  .then(data2 => {
-   
-    data2=data2
       var data = JSON.parse(text);
       var retrievedObject = localStorage.getItem('testObject');
 
       obj = JSON.parse(retrievedObject)
 
-
+      
       var state_arr = obj.state;
       var year_arr = obj.year;
 
       var crime = obj.crime_type[obj.crime_type.length - 1];
+      console.log("*******************************************")
+      console.log(crime)
+      
+
       var arr = []
 
       var i;
@@ -64,6 +61,8 @@
           var brr = []
           for (k = 0; k < data.length; k++) {
             if (data[k].YEAR == year_arr[j] && data[k].STATE_UT == state_arr[i]) {
+              console.log("+++++++++++++++++++++++++++++++youuuuu")
+              console.log(data[k][crime]);
               brr.push(data[k][crime]);
             }
 
@@ -73,7 +72,7 @@
           }
         }
       }
-
+      
       var series_new = [];
 
       c = 0
@@ -116,7 +115,7 @@
       });
 
     });
-  });
+
   </script>
 </body>
 

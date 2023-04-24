@@ -6,21 +6,13 @@ from sqlalchemy.orm import backref
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
-# app = Flask(__name__)
-# app.secret_key = 'cairocoders-ednalan'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/crime'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
-
-#migrate = Migrate(app, db)
-
-date = datetime.datetime.now().strftime("%Y/%m/%d, %H:%M:%S")
+date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class Location(db.Model):
      __tablename__ = "locations"
      id = db.Column(db.Integer, primary_key=True, autoincrement= True)
-     name = db.Column(db.String(255), nullable = False) 
-     
+     name = db.Column(db.String(255), nullable = False, unique=True) 
      date_created = db.Column(db.DateTime(), default=date)
      status = db.Column(db.Boolean, default=True)
      
@@ -75,10 +67,10 @@ class User(db.Model):
 class CrimeType(db.Model):
     __tablename__ = "crimeTypes"
     id = db.Column(db.Integer, primary_key=True, autoincrement= True)
-    name = db.Column(db.String(255), nullable = False) 
+    name = db.Column(db.String(255), nullable = False, unique=True) 
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
-    status = db.Column(db.Boolean, default=False)
+    status = db.Column(db.Boolean, default=True)
     # crime = db.relationship('crime', backref=backref('crimeTypes'))
     
     
@@ -94,7 +86,14 @@ class Crime(db.Model):
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
     status = db.Column(db.Boolean, default=True)
-    
+
+
+class CrimeData(db.Model):
+    __tablename__ = "CrimeData"
+    id = db.Column(db.Integer, primary_key=True, autoincrement= True)
+    year = db.Column(db.Integer,nullable = False, unique=True)
+    filename = db.Column(db.String(255),nullable = False)
+    status = db.Column(db.Boolean, default=True)
 # with app.app_context():
 #  db.create_all()
 

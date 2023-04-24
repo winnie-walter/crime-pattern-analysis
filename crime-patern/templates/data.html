@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrimePredictor</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='assets/login/vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='assets/css/neumorphism.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='assets/css/crime-predictor.css')}}">
     <!-- header footer script -->
@@ -25,7 +26,7 @@
             document.getElementById('txt').innerHTML = time.toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: false
             });
         }
     </script>
@@ -190,28 +191,43 @@
     <div id="upper" class="row pl-6 pr-6">
         <div id="upload" class="col-4">
             <div id="card1" class="upload_items pt-4">
-                <div class="card bg-primary border-light shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">CrimePrediction</h3>
-                        <p class="card-text">We are using FB prophet charting library to show the future crime trend for
-                            the relevant dataset upladed.</p>
+                {% with messages = get_flashed_messages()  %}
+                {% if messages %}
+                <script>
+                    window.setTimeout(function() {
+                        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                            $(this).remove();
+                        });
+                    }, 5000);
+                </script>
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show md-6" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                     </div>
-                </div>
+                    
+                {% endfor %}
+            {% endif %}
+            
+                    {% endwith %} 
 
                 <div id="upload-file" class="upload_items pt-4 "
                     style="display: flex;align-items: center;flex-wrap: nowrap;">
                     <div class="custom-file">
-                        <form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data">
-                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                        <form action="/uploader" method="POST" enctype="multipart/form-data">
+                            <input type="file" class="custom-file-input" id="customFile" name="file" accept='.xlsx' required>
                             <label class="custom-file-label" for="customFile">Choose file</label>
                             <input type="submit" name="testrun" id="testrun" style="visibility: hidden;" />
 
-                        </form>
+                       
                     </div>
                     <br>
-                    <div class="btn btn-primary text-success" style="margin-left: 10px;
-                    width: 172px;" onclick="buttonfunction();"> Load Data <i class="fas fa-chevron-right"></i></div>
-
+                    <input type="submit" class="btn btn-primary" style="width: 100px;  margin-right: 15px;
+                    margin-left: 45px; align-content: center;
+                    align-items: center;" value="Submit">
+                </form>
                 </div>
 
                 <div id="upload-metadata" class="upload_items pt-4">
@@ -242,7 +258,128 @@
         <div id="upload_table" class="col-6">
             <div id="table-card" class="upload_items pt-4">
                 <div class="card bg-primary border-light shadow-soft" style="height:595px; width:900px">
-                    <div class="card-body" id="myGrid" style="overflow: scroll">
+                    <div class="card-body" id="" style="overflow: scroll">
+                        <div class="" style="
+  margin-right: 15px;
+  margin-left: 45px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    align-items: center;">
+    <form action="/" id="form1" method="POST" class="w-85 pt-5" style="
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        flex-direction: row;
+        align-content: center;">
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input1" style="
+                font-size: 22px;
+                font-weight: 600;
+                
+                font-family: monospace;
+            ">Crime</label>
+            <select class="form-control" name="location" style="width: 70%;" required>
+                
+                <option disabled selected value>Crime</option>
+                {% for i in type %}
+                <option value={{i.id}}>{{i.name}}</option>
+                {% endfor %}
+               
+          </select>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input2" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">Email</label>
+            <input type="email" class="form-control" name="email" id="input2" style="width: 70%;" required>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input3" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">Location</label>
+            <select class="form-control" name="location" style="width: 70%;" required>
+                
+                <option disabled selected value>select location</option>
+                {% for i in location %}
+                <option value={{i.id}}>{{i.name}}</option>
+                {% endfor %}
+               
+          </select>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input4" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">location</label>
+            <select class="form-control" name="year" id="year-select" style="width: 70%;" required>
+                <option disabled selected value>select department</option>
+               
+          </select>
+
+          <script>
+            // Get the current year
+            var currentYear = new Date().getFullYear();
+            
+            // Loop through years from 2016 to the current year
+            for (var year = currentYear; year >= 2016; year--) {
+              // Create an option element for each year
+              var option = document.createElement("option");
+              option.value = year;
+              option.text = year;
+              // Add the option to the select element
+              document.getElementById("year-select").appendChild(option);
+            }
+
+            var form = document.getElementById("form1");
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                var year = yearSelect.value;
+                if (year) {
+                window.location.href = '/' + year;
+                }
+            });
+          </script>
+
+        </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary" style="width: 200px;  margin-right: 15px;
+        margin-left: 45px; align-content: center;
+        align-items: center;" value="Add">
+    </form>
+    
+  </div>
+  
 
                     </div>
                 </div>
@@ -295,7 +432,7 @@
         <div class="col-6">
             <div id="table">
                 <div class="card bg-primary border-light shadow-soft" style="height:900px;">
-                    <div class="card-body" id="myGrid1" style="overflow: scroll">
+                    <div class="card-body" id="" style="overflow: scroll">
 
                     </div>
                 </div>
