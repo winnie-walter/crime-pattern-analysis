@@ -62,13 +62,13 @@
       var s = "{{url_for('static',filename='assets/data/fulldata2001.json')}}";
 
 
-      {% for i in data %}
-      if (document.getElementById('{{i.year}}-check').checked == true) {
-        document.getElementById('dropdownMenuButton').innerHTML = '{{i.year}}';
-        s = "static/assets/files/{{i.year}}.json";
+      
+      if (document.getElementById('{{data.year}}-check').checked == true) {
+        document.getElementById('dropdownMenuButton').innerHTML = '{{data.year}}';
+        s = "static/assets/files/{{data.year}}.json";
       
       } 
-      {% endfor %}
+      
       else if (document.getElementById('2001-check').checked == true) {
         document.getElementById('dropdownMenuButton').innerHTML = '2001';
         s = "{{url_for('static',filename='assets/data/fulldata2001.json')}}";
@@ -320,12 +320,13 @@
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown1-content">
-            {% for i in data %}
+            
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="{{i.year}}" id="{{i.year}}-check" checked>
-              <label class="form-check-label" for="{{i.year}}-check">
+              
+              <input class="form-check-input" type="checkbox" value="{{data.year}}" id="{{data.year}}-check" checked>
+              <label class="form-check-label" for="{{data.year}}-check">
                 
-                <a href="#" onclick="datafillfun({{i.id}})">{{i.year}}</a>
+                <a href="#" onclick="datafillfun(0)">{{data.year}}</a>
               </label>
             </div>
             <script>
@@ -335,9 +336,9 @@
           
           t = 'assets/files/2016.json'
           
-          if (document.getElementById('{{i.year}}-check').checked == true) {
-            document.getElementById('dropdownMenuButton').innerHTML = '{{i.year}}';
-            s = "static/assets/files/{{i.year}}.json";
+          if (document.getElementById('{{data.year}}-check').checked == true) {
+            document.getElementById('dropdownMenuButton').innerHTML = '{{data.year}}';
+            s = "static/assets/files/{{data.year}}.json";
             console.log(s);
           
           } 
@@ -371,7 +372,7 @@
             });
         }
       </script>
-            {% endfor %}
+            
           </div>
         </div>
       </div>

@@ -24,3 +24,4 @@ wincertstore==0.2
 pandas
 openpyxl
 flask_sqlalchemy
+flask_migrate

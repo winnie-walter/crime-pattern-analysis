@@ -17,7 +17,7 @@ json_file = 'fulldata2016.json'
 #     for row in csv_reader:
 #         data.append(row)  
 
-df = pd.read_csv('crime.csv')
+df = pd.read_excel('crime_data/crime2016.xlsx')
 df = pd.DataFrame(df)
 new_data = df.dropna(axis=1,how='all')
 new_data = new_data.drop(new_data.index[-1])
@@ -32,7 +32,7 @@ for crime in crime:
 
 for j in new_data:
  for i in range(len(new_data)):
-    new_data[j][i]=new_data[j][i].replace(',', '')
+    new_data[j][i]=new_data[j][i]
 crime = ['Murder','Rape','Child Desertion','Unnatural Offence','Defilement']
 for crime in crime:
     
@@ -52,11 +52,11 @@ regions = [    'Arusha',    'Dar es Salaam',    'Dodoma',    'Geita',    'Iringa
 
         
 #print(new_data['Police Region'])
-new_data.to_csv('fulldata2016.csv',index=False)
+new_data.to_csv('2016.csv',index=False)
 
 
 
-df = pd.read_csv('fulldata2016.csv')
+df = pd.read_csv('2016.csv')
 
 mask = df['Police Region'].isin(['Temeke','Ilala','Kinondoni'])
 columns = df.columns[1:]
@@ -75,17 +75,17 @@ data = data.sort_values('STATE_UT')
 data.insert(loc=data.columns.get_loc('STATE_UT')+1,column='DISTRICT', value='TOTAL')
 data.insert(loc=data.columns.get_loc('STATE_UT')+2,column='YEAR', value='2016')
 data = data.reset_index(drop=True).dropna()
-data.columns = data.columns.str.replace(' ','_')
+data.columns = data.columns
 # print(data)
 regions = [    'Arusha',    'Dar-es-Salaam',    'Dodoma',    'Geita',    'Iringa',    'Kagera',    'Katavi',    'Kigoma',    'Kilimanjaro',    'Lindi',    'Manyara',    'Mara',    'Mbeya',    'Morogoro',    'Mtwara',    'Mwanza',    'Njombe',    'Pemba North',    'Pemba South',    'Pwani',    'Rukwa',    'Ruvuma',    'Shinyanga',    'Simiyu',    'Singida',    'Songwe',    'Tabora',    'Tanga',    'Unguja North',    'Unguja South',    'Zanzibar Central/South']
 regions = [ s.upper() for s in regions]
 
 data = data[data['STATE_UT'].isin(regions)]
 
-data.to_csv('fullsjsondata2016.csv',index=False)
-data = data.to_dict(orient='records')
+# data.to_csv('fullsjsondata2016.csv',index=False)
+# data = data.to_dict(orient='records')
 
 print(data)
-with open('static\\assets\\data\\fulldata2016.json', 'w') as f:
-    json.dump(data,f)
+# with open('static\\assets\\data\\fulldata2016.json', 'w') as f:
+#     json.dump(data,f)
     

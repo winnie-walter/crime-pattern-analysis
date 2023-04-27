@@ -24,7 +24,7 @@
 
 
   <script>
-    s = "/static/assets/files/2016.json";
+    s = "/static/assets/files/fulldata.json";
 
     function readTextFile(file, callback) {
       var rawFile = new XMLHttpRequest();
@@ -61,8 +61,7 @@
           var brr = []
           for (k = 0; k < data.length; k++) {
             if (data[k].YEAR == year_arr[j] && data[k].STATE_UT == state_arr[i]) {
-              console.log("+++++++++++++++++++++++++++++++youuuuu")
-              console.log(data[k][crime]);
+              
               brr.push(data[k][crime]);
             }
 

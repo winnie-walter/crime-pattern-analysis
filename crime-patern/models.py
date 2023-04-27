@@ -16,8 +16,13 @@ class Location(db.Model):
      date_created = db.Column(db.DateTime(), default=date)
      status = db.Column(db.Boolean, default=True)
      
-    #  user = db.relationship('users', backref=backref('locations'))
-    #  crime = db.relationship('crime', backref=backref('locations'))
+     user = db.relationship('User', backref=backref('locations'))
+     crime = db.relationship('Crime', backref=backref('locations'))
+     
+     
+     def __repr__(self):
+            return f"<{self.name}>"
+     
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement= True)
@@ -29,10 +34,11 @@ class User(db.Model):
     is_staff = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
     location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
-    # crime = db.relationship('crime', backref=backref('users'))
+    
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
-    
+    crime = db.relationship('Crime', backref=backref('users'))
+    crimedata = db.relationship('CrimeData', backref=backref('users'))
     def set_password(self,password):
          self.password = generate_password_hash(password)
          return self.password
@@ -71,18 +77,17 @@ class CrimeType(db.Model):
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
     status = db.Column(db.Boolean, default=True)
-    # crime = db.relationship('crime', backref=backref('crimeTypes'))
+    crime = db.relationship('Crime', backref=backref('crimeTypes'))
     
     
 class Crime(db.Model):
     __tablename__ = "crime"
     id = db.Column(db.Integer, primary_key=True, autoincrement= True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    crimeType_id = db.Column(db.Integer, db.ForeignKey('crimeTypes.id'))
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
+    crimeType = db.Column(db.Integer, db.ForeignKey('crimeTypes.id'))
+    location = db.Column(db.Integer, db.ForeignKey('locations.id'))
     description = db.Column(db.String(255), nullable = False)
     date_occured =  db.Column(db.DateTime(), default=date)
-    #post = db.relationship('posts', backref=backref('users'))
     date_created = db.Column(db.DateTime(), default=date)
     date_updated = db.Column(db.DateTime(), default=date)
     status = db.Column(db.Boolean, default=True)
@@ -93,6 +98,7 @@ class CrimeData(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement= True)
     year = db.Column(db.Integer,nullable = False, unique=True)
     filename = db.Column(db.String(255),nullable = False)
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.Boolean, default=True)
 # with app.app_context():
 #  db.create_all()

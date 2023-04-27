@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrimePredictor</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/neumorphism.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/crime-locator.css')}}">
+
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='assets/login/vendor/bootstrap/css/bootstrap.min.css')}}">
+    <!-- header footer script -->
+    
+    <script src="https://kit.fontawesome.com/7bdcd846e8.js" crossorigin="anonymous"></script>
+
+    <script type="module" src="{{url_for('static',filename='assets/javascript/header-footer.js')}}"></script>
+
+
+
+
+    <!-- live time -->
+    <script>
+        function startTime() {
+            var time = new Date();
+            document.getElementById('txt').innerHTML = time.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+        }
+    </script>
+    <!-- sound script -->
+    <script>
+        function audio() {
+            var audio = new Audio("{{url_for('static',filename='assets/sound/click-sound.mp3')}}");
+            audio.play();
+
+        }
+    </script>
+
+    <script>
+        function datafillfun(n) {
+
+            //console.log("testing run...");
+            var s1 = "{{url_for('static',filename='assets/data/pincodes.json')}}";
+            var s = "{{url_for('static',filename='assets/data/districtjsondata.json')}}";
+            var s2 = "{{url_for('static',filename='assets/data/rankdataset.json')}}";
+
+
+            document.getElementById('myGrid1').innerHTML = '';
+
+            inppincode = document.getElementById('pincode').value;
+
+            console.log("testing");
+            console.log(inppincode, "pincode")
+
+            // function for reading json file
+            function readTextFile(file, callback) {
+                var rawFile = new XMLHttpRequest();
+                rawFile.overrideMimeType("application/json");
+                rawFile.open("GET", file, true);
+                rawFile.onreadystatechange = function () {
+                    if (rawFile.readyState === 4 && rawFile.status == "200") {
+                        callback(rawFile.responseText);
+                    }
+                }
+                rawFile.send(null);
+            }
+
+
+            readTextFile(s1, function (text) {
+                var data1 = JSON.parse(text);
+                console.log(data1);
+
+
+                readTextFile(s2, function (text) {
+                    var data2 = JSON.parse(text);
+                    console.log(data2);
+                    
+                    readTextFile(s, function (text) {
+                    var data = JSON.parse(text);
+                    console.log(data);
+                    
+                    var district = "none";
+
+
+
+                    for (i = 0; i < data1.length; i++) {
+                        if (data1[i].pincode == inppincode) {
+                            district = data1[i].districtName;
+                            break;
+                        }
+                    }
+
+                    var rank='N/A'
+                    for (i = 0; i < data2.length; i++) {
+                        if (data2[i].DISTRICT.toLowerCase() == district.toLowerCase()) {
+                            rank=data2[i].level_0;
+                            break;
+                        }
+                    }
+                    console.log("rank of district",rank,district);
+
+
+                    if (district == "none") {
+                        alert("Please check the pincode");
+                    }
+                    else {
+                        console.log(district, "district");
+                    }
+
+
+                    var tableBody = '<h5></h5><table class="table table-hover" ><tr><th class="border-0" scope="col" id="state-table-heading">DISTRICT</th>';
+
+
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">STATE_UT</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">YEAR</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">MURDER</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">ATTEMPT_TO_MURDER</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CULPABLE_HOMICIDE_NOT_AMOUNTING_TO_MURDER</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">RAPE</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CUSTODIAL_RAPE</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">OTHER_RAPE</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">KIDNAPPING_AND_ABDUCTION</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">KIDNAPPING_AND_ABDUCTION_OF_WOMEN_AND_GIRLS</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">KIDNAPPING_AND_ABDUCTION_OF_OTHERS</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">DACOITY</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">PREPARATION_AND_ASSEMBLY_FOR_DACOITY</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">ROBBERY</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">BURGLARY</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">THEFT</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">AUTO_THEFT</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">OTHER_THEFT</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">RIOTS</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CRIMINAL_BREACH_OF_TRUST</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CHEATING</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">COUNTERFIETING</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">ARSON</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">HURT_GREVIOUS_HURT</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">DOWRY_DEATHS</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">ASSAULT_ON_WOMEN_WITH_INTENT_TO_OUTRAGE_HER_MODESTY</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">INSULT_TO_MODESTY_OF_WOMEN</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CRUELTY_BY_HUSBAND_OR_HIS_RELATIVES</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">IMPORTATION_OF_GIRLS_FROM_FOREIGN_COUNTRIES</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">CAUSING_DEATH_BY_NEGLIGENCE</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">OTHER_IPC_CRIMES</th>';
+                    tableBody += '<th class="border-0" scope="col" id="total-table-heading">TOTAL_IPC_CRIMES</th>';
+                    tableBody += '</tr>';
+                    arr = []
+
+                    var st;
+
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i].DISTRICT == district.toUpperCase()) {
+                            //console.log("yeh bhi chal gya");
+                            outdata = data[i];
+
+
+
+                            d = outdata;
+                            st = d.STATE_UT;
+
+                            tableBody += '<tr><th scope="row">' + d.DISTRICT;
+                            tableBody += '</th><td>' + d.STATE_UT;
+                            tableBody += '</th><td>' + d.YEAR;
+                            tableBody += '</th><td>' + d.MURDER;
+                            tableBody += '</th><td>' + d.ATTEMPT_TO_MURDER;
+                            tableBody += '</th><td>' + d.CULPABLE_HOMICIDE_NOT_AMOUNTING_TO_MURDER;
+                            tableBody += '</th><td>' + d.RAPE;
+                            tableBody += '</th><td>' + d.CUSTODIAL_RAPE;
+                            tableBody += '</th><td>' + d.OTHER_RAPE;
+                            tableBody += '</th><td>' + d.KIDNAPPING_AND_ABDUCTION;
+                            tableBody += '</th><td>' + d.KIDNAPPING_AND_ABDUCTION_OF_WOMEN_AND_GIRLS;
+                            tableBody += '</th><td>' + d.KIDNAPPING_AND_ABDUCTION_OF_OTHERS;
+                            tableBody += '</th><td>' + d.DACOITY;
+                            tableBody += '</th><td>' + d.PREPARATION_AND_ASSEMBLY_FOR_DACOITY;
+                            tableBody += '</th><td>' + d.ROBBERY;
+                            tableBody += '</th><td>' + d.BURGLARY;
+                            tableBody += '</th><td>' + d.THEFT;
+                            tableBody += '</th><td>' + d.AUTO_THEFT;
+                            tableBody += '</th><td>' + d.OTHER_THEFT;
+                            tableBody += '</th><td>' + d.RIOTS;
+                            tableBody += '</th><td>' + d.CRIMINAL_BREACH_OF_TRUST;
+                            tableBody += '</th><td>' + d.CHEATING;
+                            tableBody += '</th><td>' + d.COUNTERFIETING;
+                            tableBody += '</th><td>' + d.ARSON;
+                            tableBody += '</th><td>' + d.HURT_GREVIOUS_HURT;
+                            tableBody += '</th><td>' + d.DOWRY_DEATHS;
+                            tableBody += '</th><td>' + d.ASSAULT_ON_WOMEN_WITH_INTENT_TO_OUTRAGE_HER_MODESTY;
+                            tableBody += '</th><td>' + d.INSULT_TO_MODESTY_OF_WOMEN;
+                            tableBody += '</th><td>' + d.CRUELTY_BY_HUSBAND_OR_HIS_RELATIVES;
+                            tableBody += '</th><td>' + d.IMPORTATION_OF_GIRLS_FROM_FOREIGN_COUNTRIES;
+                            tableBody += '</th><td>' + d.CAUSING_DEATH_BY_NEGLIGENCE;
+                            tableBody += '</th><td>' + d.OTHER_IPC_CRIMES;
+                            tableBody += '</th><td>' + d.TOTAL_IPC_CRIMES;
+                            tableBody += '</td></tr>';
+                        }
+                    }
+
+                    console.log(st, "state value");
+
+
+                    data.forEach(function (d) {
+
+                    }
+                    );
+                    tableBody += '<table>';
+
+                    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+
+                    var source = "https://www.google.com/maps/embed/v1/place?key=AIzaSyBMRV8kCEFnXyNHjpTevtrr_pb-kb7eqYY&q=" + String(district).split(" ").join("") + String(st).split(" ").join("");
+
+
+                    console.log(source);
+                    document.getElementById('districtmap').src = source;
+
+                    document.getElementById('state_info').innerHTML= st;
+                    document.getElementById('district_info').innerHTML= district;
+                    document.getElementById('rank_info').innerHTML= rank;
+
+                    var divContainer = document.getElementById("myGrid1");
+                    divContainer.innerHTML = tableBody;
+                });
+            });
+            });
+        }
+
+    </script>
+
+
+</head>
+
+<body onload="startTime()">
+    {% if uss %}
+    <my-header></my-header>
+{% else %}
+<my-header2></my-header2>
+{% endif %}
+
+
+
+    <!-- <iframe
+    width="600"
+    height="450"
+    style="border:0"
+    loading="lazy"
+    allowfullscreen
+    src=kanpurnagar+Uttarpradesh">
+  </iframe> -->
+
+
+  <div class="" style="
+  margin-right: 15px;
+  margin-left: 45px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    align-items: center;">
+ 
+    <form action="/update_user/{{user.id}}" method="POST" class="w-85 pt-5" style="
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        flex-direction: row;
+        align-content: center;">
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input1" style="
+                font-size: 22px;
+                font-weight: 600;
+                
+                font-family: monospace;
+            ">Full Name</label>
+            <input class="form-control" name="name" value="{{user.fullname}}" placeholder="full names" id="input1" style="width: 70%;" required>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input2" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">Email</label>
+            <input type="email" class="form-control" value="{{user.username}}" name="email" id="input2" style="width: 70%;" required>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input3" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">PhoneNumber</label>
+            <input type="phone" class="form-control" value="{{user.phoneNumber}}" name="number" id="input3"  style="width: 70%;" required>
+        </div>
+        <div class="form-group mb-3" style="
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: center;
+            align-items: center;
+            width: 50%;">
+            <label for="input4" style="
+                font-size: 22px;
+                font-weight: 600;
+                padding-right: 40px;
+                font-family: monospace;
+            ">location</label>
+            <select class="form-control" name="location" id="input5" style="width: 70%;" required>
+                
+                {% for i in location %}
+                {% if user.locations.name == i.name %}
+                <option value="{{user.location_id}}" selected>{{user.locations.name}}</option>
+                {% else %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endif %}
+                {% endfor %}
+          </select>
+        </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary"  style="width: 200px;  margin-right: 15px;
+        margin-left: 45px; align-content: center;
+        align-items: center;" value="Edit">
+    </form>
+    
+    {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      <p style="color:red">{{ message }}</p>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %} 
+  </div>
+  
+
+
+<div>
+</div></div> 
+
+
+
+    <my-footer></my-footer>
+
+</body>
+
+</html>

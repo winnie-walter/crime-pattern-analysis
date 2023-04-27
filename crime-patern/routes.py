@@ -7,7 +7,7 @@ import psycopg2 #pip install psycopg2
 import psycopg2.extras
 import re 
 import pandas as ps
-from flask_login import current_user
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from models import *
@@ -94,7 +94,7 @@ def upload_file():
      uss = session['is_admin']
      if request.method == 'POST':
       f = request.files['file']
-      
+      print(f.filename[-9:-5])
       folder = 'static/assets/datasets'
       
       path = f'{folder}/{f.filename}'
@@ -103,12 +103,18 @@ def upload_file():
           return redirect(url_for('data'))
       else:
         col = ['STATE_UT','DISTRICT','YEAR','MURDER','RAPE','CHILD_DESERTION','UNNATURAL_OFFENCE','DEFILEMENT','TOTAL_IPC_CRIMES']
+        
         if f.filename.endswith('.xlsx'):
          df = ps.read_excel(f)
-         
+        
          df.insert(loc=df.columns.get_loc('STATE_UT')+1,column='DISTRICT', value='TOTAL')
+         df.insert(loc=df.columns.get_loc('STATE_UT')+2,column='YEAR', value=f.filename[-9:-5])
+         df = df.rename(columns={'CHILD DESERTION': 'CHILD_DESERTION','UNNATURAL OFFENCE':'UNNATURAL_OFFENCE'})
          df = df.sort_values('STATE_UT')
          df = df.reset_index(drop=True).dropna()
+         dir_path= 'static/assets/datasets/'
+         
+         
          if list(df.columns)!=col:
             flash('upload file with same data columns name')
             return redirect(url_for('data'))
@@ -119,10 +125,27 @@ def upload_file():
             
             #print(year)
             j = f'static/assets/files/{year}.json'
-            
-            with open(j, 'w') as g:
-                json.dump(datas,g)
-            data = CrimeData(year=year,filename=j)
+            if len(os.listdir('static/assets/datasets')) == 0:
+                 df.to_excel('static/assets/datasets/'+f.filename,index=False)
+                 df.to_excel('static/assets/datasets/fulldata.xlsx',index=False)
+                 with open(j, 'w') as g:
+                    json.dump(datas,g)
+            else:
+                 csv_files = [file for file in os.listdir('static/assets/datasets') if file.endswith('.xlsx')]
+                 dfs = []
+
+# Loop through each CSV file and read it into a dataframe
+                 for file in csv_files:
+                    df = pd.read_csv(os.path.join(dir_path, file))
+                    dfs.append(df)
+
+                # Concatenate all dataframes into a single dataframe
+                 merged_df = pd.concat(dfs, ignore_index=True)
+                 datas = merged_df.to_dict(orient='records')
+                 merged_df.to_excel('static/assets/datasets/fulldata.xlsx')
+                 with open('static/assets/files/fulldata.json', 'w') as g:
+                    json.dump(datas,g)
+            data = CrimeData(year=year,User=session['id'],filename=j)
             d = CrimeData.query.filter_by(year=year).first()
             if d:
                 flash('File of that year exists')
@@ -132,7 +155,7 @@ def upload_file():
                     db.session.add(data)
                     db.session.commit()
                 
-                    df.to_excel(f'{folder}/{f.filename}',index=False)
+                 
                 flash('file uploaded successfully')
                 return redirect(url_for('data'))
         else:
@@ -142,7 +165,16 @@ def upload_file():
     #   predictfun()
      
     return redirect(url_for('login'))
-      
+
+
+@app.route('/uploads', methods = ['GET', 'POST'])
+def upload_files():
+    if request.method == 'POST':
+      f = request.files['file']
+      f.save(f.filename)
+      #return 'file uploaded successfully'
+      predictfun()
+    return render_template('crime-predictor.html')   
 
 @app.route('/feed.html')
 def feed():
@@ -176,7 +208,8 @@ def index():
         uss = session['is_admin']
         type = CrimeType.query.all()
         location = Location.query.all()
-        data = CrimeData.query.all()
+        data = CrimeData.query.order_by(CrimeData.year.desc()).first()
+        
         if request.method=='POST':
             webscrappingfun()
         return render_template('index.html',uss=uss,type=type,location=location,data=data)
@@ -207,7 +240,7 @@ def login():
         if users and users.check_password(password):
                 # Create session data, we can access this data in other routes
                 session['loggedin'] = True
-                # session['id'] = user.id
+                session['id'] = users.id
                 
                 session['username'] = username
                 session['is_admin'] = users.is_admin
@@ -273,6 +306,7 @@ def logout():
    session.pop('id', None)
    session.pop('username', None)
    # Redirect to login page
+   flash('logout successful')
    return redirect(url_for('login'))
 
 # @app.route('/profile')
@@ -297,3 +331,50 @@ def home():
         return render_template('home.html', username=session['username'])
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+
+@app.route('/delete_user/<int:user_id>', methods=['POST','GET'])
+def delete_user(user_id):
+    if 'loggedin' in session:  
+        if request.method == 'POST':
+         user = User.query.filter_by(id=user_id).first()
+         if user:
+                db.session.delete(user)
+                db.session.commit()
+                
+                flash('user deleted successful')
+                return redirect('/user')
+    else:
+        return redirect('/login')
+
+
+@app.route('/update_user/<int:user_id>/', methods=['POST','GET'])
+def update_user(user_id):
+  if 'loggedin' in session:  
+    if request.method == 'POST':
+            user = User.query.filter_by(id=user_id).first()
+            user.username = request.form['email']
+            # user.email = request.form['email']
+            user.fullname = request.form['name']
+            user.phoneNumber = request.form['number']
+            user.location_id = request.form['location']
+            with app.app_context():
+                        
+                        db.session.commit()
+            flash('user edicted successful')
+            return redirect('/user')
+    else:
+        location = Location.query.all()
+        user = User.query.filter_by(id=user_id).first()
+        
+        return render_template('edituser.html',location=location,user=user)
+  return redirect(url_for('login')) 
+
+
+@app.route('/user', methods=['GET'])
+def user():
+    if 'loggedin' in session:
+     user= User.query.join(Location).all()
+     return render_template('user.html',user=user)
+    else:
+        return redirect(url_for('login'))

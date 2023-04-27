@@ -47,21 +47,21 @@ class MyHeader extends HTMLElement {
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
           <label class="form-check-label" for="defaultCheck1">
-            <a href="/adduser">Add User</a>
+            <a href="/user">User Management</a>
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
           <label class="form-check-label" for="defaultCheck2">
-            <a href="#">Webscrapped Data </a>
+            <a href=""> Profile</a>
           </label>
         </div>
-        <!-- <div class="form-check">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
           <label class="form-check-label" for="defaultCheck3">
             <a href="#">Predicted Data </a>
           </label>
-        </div> -->
+        </div> 
       </div>
 
     </div>
