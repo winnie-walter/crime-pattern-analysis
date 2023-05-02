@@ -3,8 +3,8 @@ import json
 import os
 from app import app
 from flask import Flask, request, session, redirect, url_for, render_template, flash
-import psycopg2 #pip install psycopg2 
-import psycopg2.extras
+#import psycopg2 #pip install psycopg2 
+#import psycopg2.extras
 import re 
 import pandas as ps
 
@@ -77,6 +77,8 @@ def adduser():
 
 from prediction import *
 from werkzeug.utils import secure_filename
+
+
 @app.route('/crime-predictor.html', methods = ['GET', 'POST'])
 def crime_predictor():
     if 'loggedin' in session:
@@ -85,7 +87,10 @@ def crime_predictor():
         f = request.files['file']
         f.save(secure_filename(f.filename))
         print('file uploaded successfully')
-     return render_template('crime-predictor.html',uss=uss)
+     type = CrimeType.query.all()
+     location = Location.query.all()
+     pred = PredictData.query.filter_by(user=session['id'])
+     return render_template('crime-predictor.html',uss=uss,type=type,location=location,pred=pred)
     return redirect(url_for('login'))
 
 @app.route('/uploader', methods = ['GET', 'POST'])
@@ -127,25 +132,30 @@ def upload_file():
             j = f'static/assets/files/{year}.json'
             if len(os.listdir('static/assets/datasets')) == 0:
                  df.to_excel('static/assets/datasets/'+f.filename,index=False)
-                 df.to_excel('static/assets/datasets/fulldata.xlsx',index=False)
+                 #df.to_excel('static/assets/datasets/fulldata.xlsx',index=False)
                  with open(j, 'w') as g:
                     json.dump(datas,g)
             else:
+                 df.to_excel('static/assets/datasets/'+f.filename,index=False)
                  csv_files = [file for file in os.listdir('static/assets/datasets') if file.endswith('.xlsx')]
                  dfs = []
 
 # Loop through each CSV file and read it into a dataframe
                  for file in csv_files:
-                    df = pd.read_csv(os.path.join(dir_path, file))
+                    df = pd.read_excel(os.path.join(dir_path, file))
                     dfs.append(df)
 
                 # Concatenate all dataframes into a single dataframe
                  merged_df = pd.concat(dfs, ignore_index=True)
-                 datas = merged_df.to_dict(orient='records')
-                 merged_df.to_excel('static/assets/datasets/fulldata.xlsx')
-                 with open('static/assets/files/fulldata.json', 'w') as g:
+                 
+                 merged_df.to_excel('static/assets/fulldata/fulldata.xlsx')
+                 dataz = merged_df.to_dict(orient='records')
+                 print(merged_df)
+                 with open(j, 'w') as g:
                     json.dump(datas,g)
-            data = CrimeData(year=year,User=session['id'],filename=j)
+                 with open('static/assets/fulldata/fulldata.json', 'w') as g:
+                    json.dump(dataz,g)
+            data = CrimeData(year=year,user=session['id'],filename=j)
             d = CrimeData.query.filter_by(year=year).first()
             if d:
                 flash('File of that year exists')
@@ -173,7 +183,7 @@ def upload_files():
       f = request.files['file']
       f.save(f.filename)
       #return 'file uploaded successfully'
-      predictfun()
+      #predictfun()
     return render_template('crime-predictor.html')   
 
 @app.route('/feed.html')
@@ -378,3 +388,44 @@ def user():
      return render_template('user.html',user=user)
     else:
         return redirect(url_for('login'))
+    
+
+@app.route('/predict', methods=['POST','GET'])
+def prediction():
+#   try:  
+    if request.method == 'POST':
+        type = request.form['type']
+        from_year = request.form['from']
+        loc = request.form['location']
+        if '-'in from_year:
+            y1,y2 = from_year.split("-")
+            
+            d = PredictData.query.filter_by(user=session['id']).first()
+            if d:
+                db.session.delete(d)
+                db.session.commit()
+            pred = predict_range(loc,int(y1),int(y2),type)
+            p = PredictData(image=pred,user=session['id'])
+            with app.app_context():
+                db.session.add(p)
+                db.session.commit()
+            redirect('crime-predictor.html')
+        
+        else:
+            
+            d = PredictData.query.filter_by(user=session['id']).first()
+            if d:
+                db.session.delete(d)
+                db.session.commit()
+            pred = predict(loc,from_year,type)
+            p = PredictData(image=pred,user=session['id'])
+            with app.app_context():
+                db.session.add(p)
+                db.session.commit()
+            redirect('crime-predictor.html')
+        
+            
+        return redirect('crime-predictor.html')
+#   except:
+#      flash('user edicted successful')
+#      return redirect('crime-predictor.html')

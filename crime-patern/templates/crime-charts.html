@@ -99,11 +99,12 @@
         
 
 
-            document.getElementById('iframeID').contentWindow.location.reload();
-            document.getElementById('iframeID1').contentWindow.location.reload();
+           ;
             document.getElementById('iframeID2').contentWindow.location.reload();
             document.getElementById('iframeID3').contentWindow.location.reload();
             document.getElementById('iframeID4').contentWindow.location.reload();
+            document.getElementById('iframeID').contentWindow.location.reload();
+            document.getElementById('iframeID1').contentWindow.location.reload()
             
 
 
@@ -132,9 +133,14 @@ var retrievedObject = localStorage.getItem('testObject');
 
 <body onload="startTime()">
 
-
-
+    {% if uss %}
     <my-header></my-header>
+  {% else %}
+  <my-header2></my-header2>
+  {% endif %}
+  
+
+    
 
 
 
@@ -308,25 +314,16 @@ var retrievedObject = localStorage.getItem('testObject');
 
 
                 <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical"
-                    style="padding-top: 90px;">
+                    style="padding-bottom: 220px;">
                     <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-barchart-tab" data-bs-toggle="pill"
                         data-bs-target="#v-pills-barchart" type="button" role="tab" aria-controls="v-pills-barchart"
                         aria-selected="false">Bar Chart</button>
-                    <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-area-chart-tab" data-bs-toggle="pill"
-                        data-bs-target="#v-pills-area-chart" type="button" role="tab" aria-controls="v-pills-area-chart"
-                        aria-selected="true">Area Chart</button>
+                    
 
 
-                    <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-bubblechart-tab" data-bs-toggle="pill"
-                        data-bs-target="#v-pills-bubblechart" type="button" role="tab"
-                        aria-controls="v-pills-bubblechart" aria-selected="false">Bubble Chart</button>
+                    
 
-                    <!-- <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-heat-chart-tab" data-bs-toggle="pill"
-                        data-bs-target="#v-pills-heat-chart" type="button" role="tab" aria-controls="v-pills-heat-chart"
-                        aria-selected="false">Heat Chart</button> -->
-                    <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-line-chart-tab" data-bs-toggle="pill"
-                        data-bs-target="#v-pills-line-chart" type="button" role="tab" aria-controls="v-pills-line-chart"
-                        aria-selected="false">Line Chart</button>
+            
                         
                     <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-nested-pie-chart-tab"
                         data-bs-toggle="pill" data-bs-target="#v-pills-nested-pie-chart" type="button" role="tab"
@@ -336,9 +333,7 @@ var retrievedObject = localStorage.getItem('testObject');
                         data-bs-target="#v-pills-pie-chart" type="button" role="tab" aria-controls="v-pills-pie-chart"
                         aria-selected="false">Pie Chart</button>
 
-                    <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-radar-chart-tab" data-bs-toggle="pill"
-                        data-bs-target="#v-pills-radar-chart" type="button" role="tab"
-                        aria-controls="v-pills-radar-chart" aria-selected="false">Radar Chart</button>
+                    
 
                     <!-- <button id="btn-pill" class="mt-3 mb-3 nav-link" id="v-pills-rank-flow-chart-tab"
                         data-bs-toggle="pill" data-bs-target="#v-pills-rank-flow-chart" type="button" role="tab"
@@ -433,7 +428,7 @@ var retrievedObject = localStorage.getItem('testObject');
         <div id="mapArea" class="col-10">
 
             <div class="tab-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-area-chart" role="tabpanel"
+                <div class="tab-pane fade" id="v-pills-area-chart" role="tabpanel"
                     aria-labelledby="v-pills-area-chart-tab">
                     <!-- <embed type="text/html" src="{{url_for('static',filename='assets/Charts/area-chart.html')}}" width="1200"
                         height="600"> -->
@@ -460,7 +455,7 @@ var retrievedObject = localStorage.getItem('testObject');
                     <embed type="text/html" src="{{url_for('static',filename='assets/Charts/heat-chart.html')}}" width="1200"
                         height="600">
                 </div>
-                <div class="tab-pane fade" id="v-pills-barchart" role="tabpanel" aria-labelledby="v-pills-barchart-tab">
+                <div class="tab-pane fade show active" id="v-pills-barchart" role="tabpanel" aria-labelledby="v-pills-barchart-tab">
                     <!-- <embed type="text/html" src="{{url_for('static',filename='assets/Charts/bar-chart.html')}}" width="1200"
                         height="600"> -->
                     <iframe src="{{url_for('static',filename='assets/Charts/bar-chart.html')}}" frameborder="0" width="1200" height="600" id="iframeID"></iframe>

@@ -23,8 +23,6 @@ class MyHeader extends HTMLElement {
       <a href="index.html" class="btn btn-light text-dark mr-2"><i class="fas fa-home"></i>&nbsp Home</a>
       <a href="crime-charts.html" class="btn btn-light text-dark mr-2"><i class="fas fa-globe-asia"></i>&nbsp CrimeCharts</a>
       <a href="crime-predictor.html" class="btn btn-light text-dark mr-2"><i class="fas fa-robot"></i>&nbsp CrimePredictor</a>  
-      <a href="crime-locator.html" class="btn btn-light text-dark mr-2"><i class="fas fa-map-marker-alt"></i> &nbsp CrimeLocator</a>
-      <a href="feed.html" class="btn btn-light text-dark mr-2"><i class="fas fa-newspaper"></i>&nbsp CrimeFeed</a>
       <a href="about.html" class="btn btn-light text-dark mr-2"><i class="fas fa-user-secret"></i>&nbsp About Us</a>
       <a href="help-page.html" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Help</a>
       <a href="/data" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Data</a>
@@ -56,12 +54,6 @@ class MyHeader extends HTMLElement {
             <a href=""> Profile</a>
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-          <label class="form-check-label" for="defaultCheck3">
-            <a href="#">Predicted Data </a>
-          </label>
-        </div> 
       </div>
 
     </div>
@@ -105,13 +97,9 @@ class MyHeader2 extends HTMLElement {
   <div class="d-flex align-item pt-2 pb-2 pr-2s-center">
     <div class="d-none d-lg-block">
       <a href="index.html" class="btn btn-light text-dark mr-2"><i class="fas fa-home"></i>&nbsp Home</a>
-      <a href="crime-charts.html" class="btn btn-light text-dark mr-2"><i class="fas fa-globe-asia"></i>&nbsp CrimeCharts</a>
-      <a href="crime-predictor.html" class="btn btn-light text-dark mr-2"><i class="fas fa-robot"></i>&nbsp CrimePredictor</a>  
-      <a href="crime-locator.html" class="btn btn-light text-dark mr-2"><i class="fas fa-map-marker-alt"></i> &nbsp CrimeLocator</a>
-      <a href="feed.html" class="btn btn-light text-dark mr-2"><i class="fas fa-newspaper"></i>&nbsp CrimeFeed</a>
+      <a href="crime-charts.html" class="btn btn-light text-dark mr-2"><i class="fas fa-globe-asia"></i>&nbsp CrimeCharts</a>  
       <a href="about.html" class="btn btn-light text-dark mr-2"><i class="fas fa-user-secret"></i>&nbsp About Us</a>
       <a href="help-page.html" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Help</a>
-
       <a href="/logout" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Logout</a>
     </div>
   </div>
@@ -153,7 +141,7 @@ flex-wrap: nowrap;
 align-content: center;
 justify-content: center;
 align-items: center;">
-    <div class="col-3 "><i class="fas fa-copyright"></i> 2022 Crime Data Analysis All rights reserved </div>
+    <div class="col-3 "><i class="fas fa-copyright"></i> 2023 Crime Data Analysis All rights reserved </div>
 </div>
 </footer>
 

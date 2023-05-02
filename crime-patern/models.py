@@ -39,6 +39,7 @@ class User(db.Model):
     date_updated = db.Column(db.DateTime(), default=date)
     crime = db.relationship('Crime', backref=backref('users'))
     crimedata = db.relationship('CrimeData', backref=backref('users'))
+    crimedata = db.relationship('PredictData', backref=backref('users'))
     def set_password(self,password):
          self.password = generate_password_hash(password)
          return self.password
@@ -100,8 +101,11 @@ class CrimeData(db.Model):
     filename = db.Column(db.String(255),nullable = False)
     user = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.Boolean, default=True)
-# with app.app_context():
-#  db.create_all()
 
-# if __name__ == '__main__':
-#     app.run()
+
+class PredictData(db.Model):
+    __tablename__ = "PredictData"
+    id = db.Column(db.Integer, primary_key=True, autoincrement= True)
+    image = db.Column(db.String(255),nullable = False)
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.Boolean, default=True)

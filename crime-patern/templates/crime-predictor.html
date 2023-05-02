@@ -192,58 +192,78 @@
             <div id="card1" class="upload_items pt-4">
                 <div class="card bg-primary border-light shadow-soft">
                     <div class="card-body">
-                        <h3 class="h5 card-title mt-3">CrimePrediction</h3>
-                        <p class="card-text">We are using FB prophet charting library to show the future crime trend for
-                            the relevant dataset upladed.</p>
+                      <form method='POST' action="/predict">
+                        <select class="form-control" name="type" id="input5" style="width: 100%;" required>
+                          <option disabled selected value>select Crime</option>
+                          {% for i in type %}
+                          <option value="{{i.name}}">{{i.name}}</option>
+                          {% endfor %}
+                        </select>
+                        <br>
+                        <select class="form-control" name="location" id="input5" style="width: 100%;" required>
+                            <option disabled selected value>select Location</option>
+                            {% for i in location %}
+                            <option value="{{i.name}}">{{i.name}}</option>
+                            {% endfor %}
+                          </select>
+                          <br>
+                        <input type="text" min="2016" class="form-control" name="from" placeholder="Year Range eg. 2016-2019" id="input1" style="width: 100%;" required>
+                        <br>
+                        <button type="submit" class="btn btn-primary btn-pill text-success" style="width: 200px;justify-content:center">Submit <i class="fas fa-chevron-right"></i></button>
+                      </form>
+                      {% with messages = get_flashed_messages()  %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      <p>{{ message }}</p>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
                     </div>
-                </div>
-
-                <div id="upload-file" class="upload_items pt-4 "
-                    style="display: flex;align-items: center;flex-wrap: nowrap;">
-                    <div class="custom-file">
-                        <form action="uploads" method="POST" enctype="multipart/form-data">
-                            <input type="file" class="custom-file-input" id="customFile" name="file">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                            <input type="submit" name="testrun" id="testrun" style="visibility: hidden;" />
-
-                        </form>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %} 
                     </div>
-                    <br>
-                    <div class="btn btn-primary text-success" style="margin-left: 10px;
-                    width: 172px;" onclick="buttonfunction();"> Load Data <i class="fas fa-chevron-right"></i></div>
-
-                </div>
-
-                <div id="upload-metadata" class="upload_items pt-4">
-                    <div class="card bg-primary border-light shadow-soft">
-                        <div class="card-body">
-                            <h3 class="h5 card-title mt-3">Metadata</h3>
-                            <p class="card-text">Dataset contains the following columns:
-                            <ul>
-                                <li>ID: Unique identifier for the record.</li>
-                                <li>Date: Date when the incident occurred.</li>
-                                <li>Primary Type: The primary description of the crime.</li>
-                                <li>Location: The location where the incident occurred in a format that allows for
-                                    creation of maps and other geographic operations on this data portal. This
-                                    location
-                                    is shifted from the actual location for partial redaction but falls on the same
-                                    block.</li>
-                            </ul>
-                            </p>
-
-
-                        </div>
-                    </div>
-                </div>
+                  </div>
             </div>
         </div>
+<script>
+        const form = document.querySelector('#myForm');
+        const numberDiv = document.querySelector('#number');
+        
+        form.addEventListener('submit', (event) => {
+          event.preventDefault(); // Prevent the form from submitting normally
+        
+          const formData = new FormData(form); // Create a new FormData object from the form inputs
+        
+          fetch('/predict', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            numberDiv.innerHTML = `Generated number: ${data.number}`; // Update the div element to display the generated number
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
+        });
+        
 
-
+</script>
         <div id="upload_table" class="col-6">
             <div id="table-card" class="upload_items pt-4">
-                <div class="card bg-primary border-light shadow-soft" style="height:595px; width:900px">
-                    <div class="card-body" id="myGrid" style="overflow: scroll">
-
+                <div class="card bg-primary border-light shadow-soft" style="height:495px; width:800px">
+                    <div class="card-body" id="output" style="overflow: scroll">
+                        {% for i in pred %}
+                        
+                        <img src="{{i.image}}">
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -251,37 +271,19 @@
 
     </div>
 
-
+<script>
+    function displayValues() {
+        // Get the value from the input field
+        var inputValue = document.getElementById("input1").value;
+        
+        // Display the value on the output div
+        document.getElementById("output").innerHTML = inputValue;
+      }
+      
+</script>
     <!-- ----------------------------middle panel----------------------------------->
 
-    <div id="middle-panel" class="row pt-5 pl-6 pr-6">
-        <div class="col-6">
-            <div class="card bg-primary border-light shadow-soft">
-                <div class="card-body">
-                    <h3 class="h3 card-title mt-3">Prediction Methodology</h3>
-                    <!-- <h2>Enter something about the process</h2> -->
-                    <p>
-                        Prediction task was done using fbprophet forecasting. fbprophet’s default settings produce
-                        forecasts that are often accurate as those produced by skilled forecasters, with much less
-                        effort. With Prophet, we are not stuck with the results of a completely automatic procedure if
-                        the forecast is not satisfactory as an analyst with no training in time series methods can
-                        improve or tweak forecasts using a variety of easily-interpretable parameters.The Prophet uses a
-                        decomposable time series model with three main model components: trend, seasonality, and
-                        holidays.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-4" style="display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: center;">
-            <h4>Press the button to run.</h4>
-            <div class="btn btn-primary btn-pill text-success">Run <i class="fas fa-chevron-right"></i></div>
-
-        </div>
-    </div>
+    
 
 
 
@@ -291,38 +293,8 @@
 
 
 
-    <div id="lower" class="row pt-5 pl-6 pr-6 pb-6">
-        <div class="col-6">
-            <div id="table">
-                <div class="card bg-primary border-light shadow-soft" style="height:900px;">
-                    <div class="card-body" id="myGrid1" style="overflow: scroll">
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="col-6">
-            <div id="chart-1" class="pt-1">
-                <div class="card bg-primary border-light shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Visualizing future results</h3>
-                        <img src="{{url_for('static',filename='assets/images/predictionresult.png')}}">
-                    </div>
-                </div>
-            </div>
-
-            <div id="chart-2" class="pt-4 ">
-                <div class="card bg-primary border-light shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Expected trend in the future</h3>
-                        <img src="{{url_for('static',filename='assets/images/predictiontrend.png')}}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  
+  
 
     </div>
 
