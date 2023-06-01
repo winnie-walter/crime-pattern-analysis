@@ -7,12 +7,13 @@ import random
 import threading
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 # load the crime data
-crime_data = pd.read_excel('static/assets//fulldata/fulldata.xlsx')
+
+
 
 num = random.randint(0,1000)
 def predict_range(state,year,year2,crime):
     
-
+    crime_data = pd.read_excel('static/assets//fulldata/fulldata.xlsx')
     # convert the STATE_UT column to one-hot encoded binary columns
     encoder = OneHotEncoder(sparse=False)
     state_encoded = encoder.fit_transform(crime_data[['STATE_UT']])
@@ -53,7 +54,7 @@ def predict_range(state,year,year2,crime):
         
     fig, ax = plt.subplots()
     # plot the line graph of crime rate against year
-    ax.bar(years, crime_rates)
+    ax.plot(years, crime_rates)
     ax.set_xticks(years)  # set the x-axis ticks to show all the years
     ax.set_xlabel('Year')
     ax.set_ylabel('Crime Rate')
@@ -66,7 +67,7 @@ def predict_range(state,year,year2,crime):
 
 def predict(state,year,crime):
     
-
+    crime_data = pd.read_excel('static/assets//fulldata/fulldata.xlsx')
     # convert the STATE_UT column to one-hot encoded binary columns
     encoder = OneHotEncoder(sparse=False)
     state_encoded = encoder.fit_transform(crime_data[['STATE_UT']])

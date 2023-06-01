@@ -23,8 +23,6 @@ class MyHeader extends HTMLElement {
       <a href="index.html" class="btn btn-light text-dark mr-2"><i class="fas fa-home"></i>&nbsp Home</a>
       <a href="crime-charts.html" class="btn btn-light text-dark mr-2"><i class="fas fa-globe-asia"></i>&nbsp CrimeCharts</a>
       <a href="crime-predictor.html" class="btn btn-light text-dark mr-2"><i class="fas fa-robot"></i>&nbsp CrimePredictor</a>  
-      <a href="about.html" class="btn btn-light text-dark mr-2"><i class="fas fa-user-secret"></i>&nbsp About Us</a>
-      <a href="help-page.html" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Help</a>
       <a href="/data" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Data</a>
       <a href="/logout" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Logout</a>
     </div>
@@ -98,8 +96,6 @@ class MyHeader2 extends HTMLElement {
     <div class="d-none d-lg-block">
       <a href="index.html" class="btn btn-light text-dark mr-2"><i class="fas fa-home"></i>&nbsp Home</a>
       <a href="crime-charts.html" class="btn btn-light text-dark mr-2"><i class="fas fa-globe-asia"></i>&nbsp CrimeCharts</a>  
-      <a href="about.html" class="btn btn-light text-dark mr-2"><i class="fas fa-user-secret"></i>&nbsp About Us</a>
-      <a href="help-page.html" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Help</a>
       <a href="/logout" class="btn btn-light text-dark mr-2"><i class="fas fa-info-circle"></i>&nbsp Logout</a>
     </div>
   </div>

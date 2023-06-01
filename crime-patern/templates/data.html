@@ -220,9 +220,20 @@
                             <input type="file" class="custom-file-input" id="customFile" name="file" accept='.xlsx' required>
                             <label class="custom-file-label" for="customFile">Choose file</label>
                             <input type="submit" name="testrun" id="testrun" style="visibility: hidden;" />
-
-                       
+           
+                            
                     </div>
+                    <br>
+                  
+                        <select class="form-control col col-4" name="year" style="width: 70%;" required>
+                
+                            <option disabled selected value>year</option>
+                            {% for year in range(2016,current_year+1) %}
+                            <option value="{{year}}">{{year}}</option>
+                            {% endfor %}
+           
+                        </select>   
+                    
                     <br>
                     <input type="submit" class="btn btn-primary" style="width: 100px;  margin-right: 15px;
                     margin-left: 45px; align-content: center;
@@ -395,29 +406,23 @@
         <div class="col-6">
             <div class="card bg-primary border-light shadow-soft">
                 <div class="card-body">
-                    <h3 class="h3 card-title mt-3">Prediction Methodology</h3>
+                    <h3 class="h3 card-title mt-3">DATA</h3>
                     <!-- <h2>Enter something about the process</h2> -->
                     <p>
-                        Prediction task was done using fbprophet forecasting. fbprophet’s default settings produce
-                        forecasts that are often accurate as those produced by skilled forecasters, with much less
-                        effort. With Prophet, we are not stuck with the results of a completely automatic procedure if
-                        the forecast is not satisfactory as an analyst with no training in time series methods can
-                        improve or tweak forecasts using a variety of easily-interpretable parameters.The Prophet uses a
-                        decomposable time series model with three main model components: trend, seasonality, and
-                        holidays.
+                       
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="col-4" style="display: flex;
+        <!-- <div class="col-4" style="display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: center;">
             <h4>Press the button to run.</h4>
             <div class="btn btn-primary btn-pill text-success">Run <i class="fas fa-chevron-right"></i></div>
 
-        </div>
+        </div> -->
     </div>
 
 
@@ -428,7 +433,7 @@
 
 
 
-    <div id="lower" class="row pt-5 pl-6 pr-6 pb-6">
+    <!-- <div id="lower" class="row pt-5 pl-6 pr-6 pb-6">
         <div class="col-6">
             <div id="table">
                 <div class="card bg-primary border-light shadow-soft" style="height:900px;">
@@ -459,7 +464,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     </div>
 

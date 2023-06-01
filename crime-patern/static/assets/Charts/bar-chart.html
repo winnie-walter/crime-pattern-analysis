@@ -49,6 +49,8 @@
       var year_arr = obj.year;
 
       var crime = obj.crime_type[obj.crime_type.length - 1];
+      var other_crime = obj.crime_type[obj.crime_type.length - 1] 
+      
       console.log("*******************************************")
       console.log(crime)
       
@@ -79,7 +81,7 @@
         var element = {}
         element.values = arr.slice(c, c + year_arr.length);
         element.year = year_arr;
-        element.text = crime + "Cases";
+        element.text = state_arr[i];
         element.state = state_arr[i];
         series_new.push(element);
         c = c + year_arr.length;
@@ -103,7 +105,12 @@
           },
           labels: year_arr
         },
-        series: series_new
+        series: series_new,
+        tooltip: {
+          
+          text: '%data-year ' + crime +  ' %t: %v',
+          visible: true
+        }
       };
 
       zingchart.render({
