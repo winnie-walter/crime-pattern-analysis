@@ -25,5 +25,4 @@ pandas
 openpyxl
 flask_sqlalchemy
 flask_migrate
-pycaret
-bs4
+
