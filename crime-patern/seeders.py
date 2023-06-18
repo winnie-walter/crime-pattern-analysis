@@ -17,10 +17,10 @@ for region in regions:
         
         db.session.commit()
 with app.app_context():       
- result = Location.query.filter_by(name='Dar-es-Salaam').first() 
+ #result = Location.query.filter_by(name='Dar-es-Salaam').first() 
       
-user = User(fullname='winnie',username='winniewalter87@gmail.com',phoneNumber='0629967870',is_admin=True,location_id=result.id)
-user.set_password('12345')
+ user = User(fullname='winnie',username='winniewalter87@gmail.com',phoneNumber='0629967870',is_admin=True,location_id=2)
+ user.set_password('12345')
   
 with app.app_context():
 

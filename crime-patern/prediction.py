@@ -8,12 +8,10 @@ import threading
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 # load the crime data
 
-
-
 num = random.randint(0,1000)
 def predict_range(state,year,year2,crime):
     
-    crime_data = pd.read_excel('static/assets//fulldata/fulldata.xlsx')
+    crime_data = pd.read_excel('static/assets//fulldatas/fulldata.xlsx')
     # convert the STATE_UT column to one-hot encoded binary columns
     encoder = OneHotEncoder(sparse=False)
     state_encoded = encoder.fit_transform(crime_data[['STATE_UT']])
@@ -67,7 +65,7 @@ def predict_range(state,year,year2,crime):
 
 def predict(state,year,crime):
     
-    crime_data = pd.read_excel('static/assets//fulldata/fulldata.xlsx')
+    crime_data = pd.read_excel('static/assets//fulldatas/fulldata.xlsx')
     # convert the STATE_UT column to one-hot encoded binary columns
     encoder = OneHotEncoder(sparse=False)
     state_encoded = encoder.fit_transform(crime_data[['STATE_UT']])

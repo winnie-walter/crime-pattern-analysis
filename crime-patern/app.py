@@ -20,7 +20,7 @@ with app.app_context():
 # from oauth2client.service_account import ServiceAccountCredentials
 #run_with_ngrok(app)   
 
-print("test")
+#print("test")
 
 # Connects our google sheet to app
 # credential = ServiceAccountCredentials.from_json_keyfile_name("CrimeAnalysis-a804da08d954.json",["https://spreadsheets.google.com/feeds",                             "https://www.googleapis.com/auth/spreadsheets",                                                        "https://www.googleapis.com/auth/drive.file",                                                        "https://www.googleapis.com/auth/drive"])
