@@ -25,4 +25,5 @@ pandas
 openpyxl
 flask_sqlalchemy
 flask_migrate
-
+scikit-learn
+matplotlib
