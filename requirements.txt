@@ -27,3 +27,4 @@ flask_sqlalchemy
 flask_migrate
 scikit-learn
 matplotlib
+psycopg2
